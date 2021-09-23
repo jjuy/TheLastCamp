@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
         if (ladderExit == CurrentClimbingLadder)
         {
             CurrentClimbingLadder = null;
+            Velocity.y = 0;
         }
         LaddersNearby.Remove(ladderExit);
 
@@ -88,15 +89,15 @@ public class Player : MonoBehaviour
         MoveInput = ctx.ReadValue<Vector2>();
     }
 
-    void HopOnLadder(Ladder ladder ToHopOn)
+    void HopOnLadder(Ladder ToHopOn)
     {
-        if (ladder ToHopOn == null) return;
-        if (ladderToHopOn != CurrentClimbingLadder)
+        if (ToHopOn == null) return;
+        if (ToHopOn != CurrentClimbingLadder)
         {
-            Transform snapToTransform = ladderToHopOn.GetClosestSnapTrasnform(transform.position);
+            Transform snapToTransform = ToHopOn.GetClosestSnapTransform(transform.position);
             characterController.Move(snapToTransform.position - transform.position);
             transform.rotation = snapToTransform.rotation;
-            CurrntClimblingLadder = ladderToHopOn;
+            CurrentClimbingLadder = ToHopOn;
             Debug.Log("Snap On Ladder");
         }
 
@@ -109,9 +110,52 @@ public class Player : MonoBehaviour
         {
             HopOnLadder(FindPlayerClimingLadder());
         }
-
-
+        if(CurrentClimbingLadder)
+        {
+            CalculateClimbingVelocity();
+        }
+        else
+        {
+            CalculateWlkingVelocity();
+        }
         //Debug.Log($"player move input is: {MoveInput}");
+        
+
+        characterController.Move(Velocity * Time.deltaTime);
+        UpdateRotation();
+
+
+
+    }
+
+    void CalculateClimbingVelocity()
+    {
+        if(MoveInput.magnitude == 0)
+        {
+            Velocity = Vector3.zero;
+        }
+        Vector3 LadderDir = CurrentClimbingLadder.transform.forward;
+        Vector3 PlayerDesiredMoveDir = GetPlayerDesiredMoveDirection();
+
+        float Dot = Vector3.Dot(LadderDir, PlayerDesiredMoveDir);
+        if(Dot<0)
+        {
+            Velocity = GetPlayerDesiredMoveDirection() * WalkingSpeed;
+            Velocity.y = WalkingSpeed;
+        }
+        else
+        {
+            if(IsOnGround())
+            {
+                Velocity = GetPlayerDesiredMoveDirection() * WalkingSpeed;
+
+            }
+            Velocity.y = -WalkingSpeed;
+        }
+    }
+
+    private void CalculateWlkingVelocity()
+    {
         if (IsOnGround())
         {
             Velocity.y = -0.2f;
@@ -141,13 +185,8 @@ public class Player : MonoBehaviour
         Velocity.z = Mathf.Clamp(Velocity.z, zMin, zMax);
 
 
-
-        characterController.Move(Velocity * Time.deltaTime);
-        UpdateRotation();
-
-
-
     }
+
     Vector3 GetPlayerDesiredMoveDirection()
     {
         return new Vector3(-MoveInput.y, 0f, MoveInput.x).normalized;
@@ -155,16 +194,18 @@ public class Player : MonoBehaviour
 
     void UpdateRotation()
     {
+        if (CurrentClimbingLadder != null)
+        {
+            return;
+        }
         Vector3 PlayerDesiredDir = GetPlayerDesiredMoveDirection();
         if (PlayerDesiredDir.magnitude == 0)
         {
             PlayerDesiredDir = transform.forward;
         }
+        
         Quaternion DesiredRotaion = Quaternion.LookRotation(PlayerDesiredDir, Vector3.up);
         transform.rotation = Quaternion.Lerp(transform.rotation, DesiredRotaion, Time.deltaTime * RotationSpeed);
 
     }
-
-
-
 }
