@@ -82,6 +82,16 @@ public class Player : MonoBehaviour
         inputActions.Gameplay.Move.performed += MoveInputUpdated;
         inputActions.Gameplay.Move.canceled += MoveInputUpdated;
 
+        inputActions.Gameplay.Interact.performed += Interact;
+
+    }
+    void Interact(InputAction.CallbackContext ctx)
+    {
+        InteractComponent interactComp = GetComponentInChildren<InteractComponent>();
+        if(interactComp!= null)
+        {
+            interactComp.Interact();
+        }
     }
 
     void MoveInputUpdated(InputAction.CallbackContext ctx)

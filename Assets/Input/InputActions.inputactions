@@ -1,5 +1,5 @@
 {
-    "name": "InputAction",
+    "name": "InputActions",
     "maps": [
         {
             "name": "Gameplay",
@@ -10,6 +10,14 @@
                     "type": "Value",
                     "id": "9941c70f-db8e-4703-82d2-8194f2603a2a",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "66b34843-9120-4101-9389-77108c7f7d76",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -69,6 +77,17 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "0d026286-3017-4cea-b0bf-ac02b91559cf",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
