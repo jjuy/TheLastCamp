@@ -47,7 +47,7 @@ public class InteractComponent : MonoBehaviour
         Interactable closestInteractable = GetCloesetInteractable();
         if (closestInteractable != null)
         {
-            closestInteractable.Interact();
+            closestInteractable.Interact(transform.parent.gameObject);
         }
     }
 

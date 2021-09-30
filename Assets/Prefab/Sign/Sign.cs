@@ -19,13 +19,19 @@ public class Sign : Interactable
         if(dialogs.Length==0)
         {
             return;
+        }       
+        currentDialogIndex = currentDialogIndex + 1;
+
+        if (currentDialogIndex == dialogs.Length)
+        {
+            SetOpacity(0);
         }
-        currentDialogIndex = (currentDialogIndex + 1) % dialogs.Length;
         DialogText.text = dialogs[currentDialogIndex];
     }
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log(dialogs.Length);
         DialogTextColor = DialogText.color;
         DialogBGColor = DialogBG.color;
         SetOpacity(0);
@@ -64,7 +70,9 @@ public class Sign : Interactable
     private void OnTriggerEnter(Collider other)
     {
         InteractComponent interactableComp = other.GetComponent<InteractComponent>();
-        if(interactableComp!=null)
+        currentDialogIndex = 0;
+        DialogText.text = dialogs[currentDialogIndex];
+        if (interactableComp!=null)
         {
             if(TransitionCoroutine!=null)
             {
@@ -80,8 +88,9 @@ public class Sign : Interactable
         InteractComponent interactableComp = other.GetComponent<InteractComponent>();
         if (interactableComp != null)
         {
-            TransitionCoroutine = StartCoroutine(TransitionOpacityTo(0)); ;
+            TransitionCoroutine = StartCoroutine(TransitionOpacityTo(0));
         }
+        
     }
     // Update is called once per frame
     void Update()
@@ -89,7 +98,7 @@ public class Sign : Interactable
         
     }
 
-    public override void Interact()
+    public override void Interact(GameObject InteractingGameObject = null)
     {
         //base.Interact();
         //Debug.Log("Sign is Interacted");

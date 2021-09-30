@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] float EdgeCheckTracingDistance = 0.8f;
     [SerializeField] float EdgeCheckTracingDepth = 1f;
     [SerializeField] float LadderClimbCommitAngleDegrees = 20f;
+    [SerializeField] Transform PicupSocketTransform;
     InputActions inputActions;
     Vector2 MoveInput;
     Vector3 Velocity;
@@ -20,8 +21,13 @@ public class Player : MonoBehaviour
     float Gravity = -9.8f;
     Ladder CurrentClimbingLadder;
 
+
     List<Ladder> LaddersNearby = new List<Ladder>();
 
+    public Transform GetPickUpSocketTransfom()
+    {
+        return PicupSocketTransform;
+    }
     public void NotifyLadderNearby(Ladder ladderNearby)
     {
         LaddersNearby.Add(ladderNearby);
@@ -197,7 +203,7 @@ public class Player : MonoBehaviour
 
     }
 
-    Vector3 GetPlayerDesiredMoveDirection()
+    public Vector3 GetPlayerDesiredMoveDirection()
     {
         return new Vector3(-MoveInput.y, 0f, MoveInput.x).normalized;
     }
