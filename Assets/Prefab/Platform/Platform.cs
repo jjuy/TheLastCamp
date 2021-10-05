@@ -13,6 +13,18 @@ public class Platform : MonoBehaviour
 
 
     Coroutine MovingCoroutine;
+
+    public void MoveTo(bool ToEnd)
+    {
+        if(ToEnd)
+        {
+            MoveTo(EndTrans);
+        }
+        else
+        {
+            MoveTo(StartTrans);
+        }
+    }
     public void MOveTo(Transform Destination)
     {
         
