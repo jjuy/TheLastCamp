@@ -14,13 +14,18 @@ public class Player : MonoBehaviour
     [SerializeField] float EdgeCheckTracingDepth = 1f;
     [SerializeField] float LadderClimbCommitAngleDegrees = 20f;
     [SerializeField] Transform PicupSocketTransform;
+    [SerializeField] GameObject MovingPlatform;
     InputActions inputActions;
     Vector2 MoveInput;
     Vector3 Velocity;
     CharacterController characterController;
     float Gravity = -9.8f;
     Ladder CurrentClimbingLadder;
-
+    Transform currentFloor;
+    Vector3 PreviousWorldPos;
+    Vector3 PreviousFloorLocalPos;
+    Quaternion PreviousWorldRot;
+    Quaternion PreviousFloorLocalRot;
 
     List<Ladder> LaddersNearby = new List<Ladder>();
 
@@ -65,10 +70,38 @@ public class Player : MonoBehaviour
         return ChosenLadder;
     }
 
+    void CheckFloor()
+    {
+        Collider[] cols = Physics.OverlapSphere(GroundCheck.position, GroundCheckRadius, GroundLayerMask);
+        if(cols.Length !=0)
+        {
+            if(currentFloor != cols[0].transform)
+            {
+                currentFloor = cols[0].transform;
+                SnapShotPositionAndRotation();
+                Debug.Log($"I am now standing on {currentFloor}");
+            }
+        }
+         
+    }
+    void SnapShotPositionAndRotation()
+    {
+        PreviousWorldPos = transform.position;
+        PreviousWorldRot = transform.rotation;
+        if (currentFloor != null)
+        {
+            PreviousFloorLocalPos = currentFloor.InverseTransformPoint(transform.position);
+            PreviousFloorLocalRot = Quaternion.Inverse(currentFloor.rotation) * transform.rotation;
+
+            
+        }
+    }
+
     bool IsOnGround()
     {
         return Physics.CheckSphere(GroundCheck.position, GroundCheckRadius, GroundLayerMask);
     }
+   
     private void Awake()
     {
         inputActions = new InputActions();
@@ -135,13 +168,27 @@ public class Player : MonoBehaviour
             CalculateWlkingVelocity();
         }
         //Debug.Log($"player move input is: {MoveInput}");
-        
 
+        CheckFloor();
+        FollowFloor();
         characterController.Move(Velocity * Time.deltaTime);
         UpdateRotation();
 
 
+        SnapShotPositionAndRotation();
+    }
 
+    void FollowFloor()
+    {
+        if(currentFloor)
+        {
+            Vector3 DeltaMove = currentFloor.TransformPoint(PreviousFloorLocalPos) - PreviousWorldPos;
+            Velocity += DeltaMove / Time.deltaTime;
+
+            Quaternion DestinationRot = currentFloor.rotation * PreviousFloorLocalRot;
+            Quaternion DeltaRot = Quaternion.Inverse(PreviousWorldRot) * DestinationRot;
+            transform.rotation = transform.rotation * DeltaRot;
+        }
     }
 
     void CalculateClimbingVelocity()
@@ -169,7 +216,15 @@ public class Player : MonoBehaviour
             Velocity.y = -WalkingSpeed;
         }
     }
-
+    public void ChangeTransformToPlatform()
+    {
+            Debug.Log("parent = MovingPlatform");
+            transform.parent = MovingPlatform.transform;
+    }
+    public void ReturnTransform()
+    {
+        transform.parent = null;
+    }
     private void CalculateWlkingVelocity()
     {
         if (IsOnGround())
@@ -199,8 +254,8 @@ public class Player : MonoBehaviour
 
         Velocity.x = Mathf.Clamp(Velocity.x, xMin, xMax);
         Velocity.z = Mathf.Clamp(Velocity.z, zMin, zMax);
-
-
+        
+        
     }
 
     public Vector3 GetPlayerDesiredMoveDirection()
