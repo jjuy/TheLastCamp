@@ -5,18 +5,18 @@ using UnityEngine;
 public class ArtifactSlot : MonoBehaviour
 {
     [SerializeField] Transform ArtifactSlotTrans;
-    [SerializeField] Platform PlatformToMove;
+    [SerializeField] GameObject TogglingObject;
 
     // Start is called before the first frame update
     public void OnArtifactLeft()
     {
         //Debug.Log("Artifact Left me ");
-        PlatformToMove.MOveTo(PlatformToMove.StartTrans);
+        TogglingObject.GetComponent<Togglable>().ToggleOff();
     }
     public void OnArtifactPlaced()
     {
         //Debug.Log("Artifact Place on me");
-        PlatformToMove.MOveTo(PlatformToMove.EndTrans);
+        TogglingObject.GetComponent<Togglable>().ToggleOn();
     }
     public Transform   GetSlotTrans()
     {

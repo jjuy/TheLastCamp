@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Platform : MonoBehaviour
+public class Platform : MonoBehaviour, Togglable
 {
     [SerializeField] public Transform objectToMove;
     [SerializeField] float TransitionTime = 1;
@@ -10,10 +10,19 @@ public class Platform : MonoBehaviour
     public Transform StartTrans;
     public Transform EndTrans;
     
+    public void ToggleOn()
+    {
+        MoveTo(true);
+    }
+    public void ToggleOff()
+    {
+        MoveTo(false);
+    }
 
 
     Coroutine MovingCoroutine;
 
+    
     public void MoveTo(bool ToEnd)
     {
         if(ToEnd)

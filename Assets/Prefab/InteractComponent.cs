@@ -19,11 +19,11 @@ public class InteractComponent : MonoBehaviour
   
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Overlapped with something");
+        //Debug.Log("Overlapped with something");
         Interactable otherAsInteractable = other.GetComponent<Interactable>();
         if (otherAsInteractable!=null)
         {
-            Debug.Log("Find Interactable");
+            //Debug.Log("Find Interactable");
             if (!interactables.Contains(otherAsInteractable))
             {
                 interactables.Add(otherAsInteractable);

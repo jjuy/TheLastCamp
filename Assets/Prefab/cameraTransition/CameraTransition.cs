@@ -30,8 +30,16 @@ public class CameraTransition : MonoBehaviour
         //move camera back to the player
         if (other.GetComponent<Player>() != null)
         {
-            DestinationCam.Priority = 9;
+            DestinationCam.Priority = 1;
         }
+    }
+    public void CameraIn(CinemachineVirtualCamera camera)
+    {
+        camera.Priority = 12;
+    }
+    public void CameraOut(CinemachineVirtualCamera camera)
+    {
+        camera.Priority = 2;
     }
 }
 

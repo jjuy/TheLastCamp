@@ -17,7 +17,7 @@ public class Interactable : MonoBehaviour
     }
     public virtual void Interact(GameObject InteractingObject = null)
     {
-        Debug.Log("Interact act");
+        //Debug.Log("Interact act");
     }
     
 }

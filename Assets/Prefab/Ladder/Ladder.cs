@@ -6,36 +6,30 @@ public class Ladder : MonoBehaviour
 {
     [SerializeField] Transform TopSnapTranform;
     [SerializeField] Transform BottomSnapTranform;
+    MovementComponent movementComponent;
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-
+        movementComponent = GetComponent<MovementComponent>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-        Player otherAsPlayer = other.GetComponent<Player>();
-        if (otherAsPlayer != null)
+        LadderClimbingComponent otherClimbingComp = other.GetComponent<LadderClimbingComponent>();
+        if (otherClimbingComp != null)
         {
             //Debug.Log("I have overlapped with the player");
-            otherAsPlayer.NotifyLadderNearby(this);
+            otherClimbingComp.NotifyLadderNearby(this);
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        Player otherAsPlayer = other.GetComponent<Player>();
-        if (otherAsPlayer != null)
+        LadderClimbingComponent otherClimbingComp = other.GetComponent<LadderClimbingComponent>();
+        if (otherClimbingComp != null)
         {
             //Debug.Log("The player left me");
-            otherAsPlayer.NotifyLadderExit(this);
+            otherClimbingComp.NotifyLadderExit(this);
         }
     }
     public Transform GetClosestSnapTransform(Vector3 Position)
@@ -43,5 +37,14 @@ public class Ladder : MonoBehaviour
         float DistanceToTop = Vector3.Distance(Position, TopSnapTranform.position);
         float DistanceToBot = Vector3.Distance(Position, BottomSnapTranform.position);
         return DistanceToTop < DistanceToBot ? TopSnapTranform : BottomSnapTranform;
+    }
+   
+    
+
+    
+
+    private void Update()
+    {
+        
     }
 }
