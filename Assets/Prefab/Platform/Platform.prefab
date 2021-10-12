@@ -108,6 +108,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8724676000665393891}
   - component: {fileID: 7243088073545984102}
+  - component: {fileID: 6162428579695171739}
   m_Layer: 0
   m_Name: Platform
   m_TagString: Untagged
@@ -144,12 +145,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe3e22ad5f4733d40aed79344085d22d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToMove: {fileID: 4182051899130100876}
-  TransitionTime: 0
   StartTrans: {fileID: 8225704379297156518}
   EndTrans: {fileID: 4163785544414533769}
-  WithPlayer: 0
-  player: {fileID: 4363597503312152457, guid: b6d4b5e5bd1045a49942a08f491aa8de, type: 3}
+--- !u!114 &6162428579695171739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8319101862208264112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3c4fb73131bcc541a4d22fe5aae1489, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToMove: {fileID: 0}
+  TransitionTime: 1
 --- !u!1001 &1864164083970637236
 PrefabInstance:
   m_ObjectHideFlags: 0

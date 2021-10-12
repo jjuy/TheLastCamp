@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 625313021037556983}
   - component: {fileID: 8961221896190426441}
+  - component: {fileID: 4855349002643332463}
   - component: {fileID: 7396801261024774029}
   - component: {fileID: -6164606273789746546}
   m_Layer: 0
@@ -45,8 +46,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d43fe7a7c8942d4a8d657a2e8ef7821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4855349002643332463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5384005972870064222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 682e9ea5e24ac7849a3eeef1fc4420b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   DestinationCam: {fileID: 0}
-  cinemachenBrain: {fileID: 0}
+  TransitionTime: 1
 --- !u!65 &7396801261024774029
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour, Togglable
 {
-    [SerializeField] public Transform objectToMove;
-    [SerializeField] float TransitionTime = 1;
+    PlarformIEnumerator iEnumerator;
 
     public Transform StartTrans;
     public Transform EndTrans;
@@ -18,9 +17,6 @@ public class Platform : MonoBehaviour, Togglable
     {
         MoveTo(false);
     }
-
-
-    Coroutine MovingCoroutine;
 
     
     public void MoveTo(bool ToEnd)
@@ -36,29 +32,18 @@ public class Platform : MonoBehaviour, Togglable
     }
     public void MOveTo(Transform Destination)
     {
-        
-        if (MovingCoroutine != null)
+        iEnumerator = GetComponent<PlarformIEnumerator>();
+        if (iEnumerator.MovingCoroutine != null)
         {
-            StopCoroutine(MovingCoroutine);
-            MovingCoroutine = null;
+            StopCoroutine(iEnumerator.MovingCoroutine);
+            iEnumerator.MovingCoroutine = null;
         }
-        MovingCoroutine = StartCoroutine(MoveToTrans(Destination, TransitionTime));
+        iEnumerator.MovingCoroutine = StartCoroutine(iEnumerator.MoveToTrans(Destination, iEnumerator.TransitionTime));
         
         
     }
 
-    IEnumerator MoveToTrans(Transform Destination, float TransitionTime)
-    {
-        float timmer = 0f;
-        while (timmer < TransitionTime)
-        {
-
-            timmer += Time.deltaTime;
-            objectToMove.position = Vector3.Lerp(objectToMove.position, Destination.position, timmer / TransitionTime);
-            objectToMove.rotation = Quaternion.Lerp(objectToMove.rotation, Destination.rotation, timmer / TransitionTime);
-            yield return new WaitForEndOfFrame();
-        }
-    }
+    
  
 
 
